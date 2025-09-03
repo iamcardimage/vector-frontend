@@ -22,7 +22,7 @@ export const DashboardPage: React.FC = () => {
         {/* Заголовок с кнопкой выхода */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
-            Vector Capital Dashboard
+            Панель администратора
           </h1>
           <LogoutButton variant="outline" />
         </div>
