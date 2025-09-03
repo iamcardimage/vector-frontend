@@ -64,3 +64,31 @@ export interface ApiError {
   success: false;
   message?: string;
 }
+
+export interface CreateUserData {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  role: UserRole;
+}
+
+export interface RoleOption {
+  value: UserRole;
+  label: string;
+  description: string;
+}
+
+export interface CreateUserResponse {
+  success: true;
+  data: {
+    user: User;
+  };
+}
+
+export interface CreateUserError {
+  error: string;
+  success: false;
+  details?: string[];
+}

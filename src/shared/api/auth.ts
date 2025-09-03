@@ -1,7 +1,11 @@
 import type { 
+    CreateUserData,
+    CreateUserResponse,
     LoginCredentials, 
     LoginResponse, 
-    ProfileResponse 
+    ProfileResponse,
+    RoleOption,
+    User
   } from '@/entities/user/model/types';
   import { BaseApi } from './base';
   
@@ -19,9 +23,23 @@ import type {
       });
     }
   
-    static async getRoles(token: string): Promise<{ roles: string[] }> {
-      return this.request<{ roles: string[] }>('/auth/roles', {
-        headers: this.getAuthHeaders(token),
-      });
-    }
+    static async getRoles(token: string): Promise<{ success: true; data: RoleOption[] }> {
+        return this.request<{ success: true; data: RoleOption[] }>('/auth/roles', {
+          headers: this.getAuthHeaders(token),
+        });
+      }
+
+    static async createUser(token: string, userData: CreateUserData): Promise<CreateUserResponse> {
+        return this.request<CreateUserResponse>('/auth/users', {
+          method: 'POST',
+          headers: this.getAuthHeaders(token),
+          body: JSON.stringify(userData),
+        });
+      }
+    
+      static async getUsers(token: string): Promise<{ success: true; data: { users: User[] } }> {
+        return this.request('/auth/users', {
+          headers: this.getAuthHeaders(token),
+        });
+      }
   }
