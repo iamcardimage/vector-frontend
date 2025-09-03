@@ -14,7 +14,6 @@ export const DashboardPage: React.FC = () => {
           </h1>
           <LogoutButton variant="outline" />
         </div>
-        // Обновите секцию с информацией о пользователе (строки 20-35):
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Информация о пользователе</h2>
           <div className="grid grid-cols-2 gap-4">
