@@ -1,4 +1,4 @@
-export type UserRole = 'administrator' | 'podft' | 'clientManagement';
+export type UserRole = 'Administrator' | 'Podft' | 'ClientManagement';
 
 
 export interface User {
@@ -47,4 +47,11 @@ export interface LoginResponse {
 export interface LoginError {
   error: string;
   success: false;
+}
+
+export interface ProfileResponse {
+  success: true;
+  data: {
+    user: User;
+  };
 }
