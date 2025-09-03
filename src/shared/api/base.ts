@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000'; // TODO: Вынести в env переменные
+const API_BASE_URL = 'http://localhost:8081'; // TODO: Вынести в env переменные
 
 export class BaseApi {
   protected static async request<T>(

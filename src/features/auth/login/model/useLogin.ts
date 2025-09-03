@@ -1,58 +1,57 @@
-import { DEMO_USERS, type User } from '@/entities/user';
 import { useState } from 'react';
-
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
+import { AuthApi } from '@/shared/api';
+import type { 
+  LoginCredentials, 
+  User, 
+  LoginResponse, 
+  ApiError
+} from '@/entities/user/model/types';
 
 interface LoginResult {
   success: boolean;
   error?: string;
   user?: User;
+  token?: string;
 }
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const login = async (credantials: LoginCredentials): Promise<LoginResult> => {
+  const login = async (credentials: LoginCredentials): Promise<LoginResult> => {
     setIsLoading(true);
     setError(null);
+    
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const demoUser = DEMO_USERS.find(
-        (user) =>
-          user.email === credantials.email &&
-          user.password === credantials.password
-      );
-
-      if (demoUser) {
-        const user: User = {
-          id: demoUser.id,
-          email: demoUser.email,
-          role: demoUser.role,
-          name: demoUser.name,
-          department: demoUser.department,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
+      const response: LoginResponse = await AuthApi.login(credentials);
+      
+      if (response.success) {
+        const { token, user } = response.data;
+        
+        localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('userRole', user.role);
-        return { success: true, user };
-      } else {
-        throw new Error('Не верный email или пароль');
+        localStorage.setItem('userRole', user.Role);
+        
+        return { 
+          success: true, 
+          user, 
+          token 
+        };
       }
     } catch (err) {
-      const errorMassage =
-        err instanceof Error ? err.message : 'Произошла ошибка при входе';
-      setError(errorMassage);
-      return { success: false, error: errorMassage };
+      const apiError = err as ApiError;
+      const errorMessage = apiError?.error || apiError?.message || 'Произошла ошибка при входе';
+      setError(errorMessage);
+      return { 
+        success: false, 
+        error: errorMessage 
+      };
     } finally {
       setIsLoading(false);
     }
+    
+    return { success: false };
   };
 
   return {

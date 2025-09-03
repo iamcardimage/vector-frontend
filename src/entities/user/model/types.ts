@@ -2,14 +2,17 @@ export type UserRole = 'Administrator' | 'Podft' | 'ClientManagement';
 
 
 export interface User {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  middle_name: string;
-  role: UserRole;
+  ID: number;
+  Email: string;
+  FirstName: string;
+  LastName: string;
+  MiddleName: string;
+  Role: UserRole;
+  IsActive?: boolean;
+  CreatedAt?: string;
+  UpdatedAt?: string;
+  PasswordHash?: string;
 }
-
 
 export interface AuthState {
   user: User | null;
@@ -54,4 +57,10 @@ export interface ProfileResponse {
   data: {
     user: User;
   };
+}
+
+export interface ApiError {
+  error: string;
+  success: false;
+  message?: string;
 }
